@@ -17,6 +17,10 @@ class RecyclerAdapter(private val itemList:ArrayList<String>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.setText(itemList[position].toString())
         //holder.textView.setText( p1.toString())
+
+        holder.itemView.setOnClickListener {
+            listener.onClick(it,itemList[position])
+        }
     }
     //RecycleViewに配置するitem数
     override fun getItemCount(): Int {
@@ -24,8 +28,14 @@ class RecyclerAdapter(private val itemList:ArrayList<String>) : RecyclerView.Ada
         //return 5
     }
 
-    lateinit var listener: AdapterView.OnItemClickListener
-    fun setOnItemClickListener(listener: AdapterView.OnItemClickListener){
+
+
+    lateinit var listener: RecyclerAdapter.OnItemClickListener
+    interface OnItemClickListener {
+        fun onClick(view: View, data: String)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
 
